@@ -1,0 +1,13 @@
+.tox
+*.pyc
+*.swp
+build
+dist
+*.egg-info
+.venv
+MANIFEST
+.coverage
+htmlcov
+docker/conf
+docker-data
+*DS_Store*

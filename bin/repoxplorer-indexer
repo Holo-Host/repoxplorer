@@ -1,0 +1,198 @@
+#!/usr/bin/env python
+
+# Copyright 2016, Fabien Boucher
+# Copyright 2016, Red Hat
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import imp
+import sys
+import time
+import logging
+import argparse
+import logging.config
+
+from pecan import configuration
+
+from repoxplorer.indexer.git import indexer
+from repoxplorer.index import projects
+
+logger = logging.getLogger('indexerDaemon')
+
+parser = argparse.ArgumentParser(description='RepoXplorer indexer')
+parser.add_argument(
+    '--forever', action='store_true', default=False,
+    help='Make the indexer run forever')
+parser.add_argument(
+    '--extract-workers', type=int, default=0,
+    help='Specify the amount of worker processes for '
+         'extracting commits information (default = auto)')
+parser.add_argument(
+    '--config', required=True,
+    help='Path to the repoXplorer configuration file')
+parser.add_argument(
+    '--project', type=str, default=None,
+    help='Specify the project to index')
+parser.add_argument(
+    '--logfile', type=str, default=None,
+    help='Override the logging file from config')
+parser.add_argument(
+    '--loglevel', type=str, default=None,
+    help='Override the logging level from config')
+parser.add_argument(
+    '--clean-orphan', action='store_true', default=False,
+    help="Clean refs and tags not known from the project's configuration")
+parser.add_argument(
+    '--refresh-projects-index', action='store_true', default=False,
+    help="Refresh projects index into the Elastic database")
+
+args = parser.parse_args()
+
+
+def refresh_projects_index():
+    logger.info("Start loading projects index configuration into EL")
+    projects.Projects(dump_yaml_in_index=True)
+
+
+def clean(conf):
+    logger.info("Start cleaning no longer referenced refs and tags")
+    projects_index = projects.Projects()
+    rc = indexer.RefsCleaner(projects_index)
+    refs_to_clean = rc.find_refs_to_clean()
+    rc.clean(refs_to_clean)
+
+
+def process(conf):
+    projects_index = projects.Projects()
+    prjs = projects_index.get_projects(source=['name', 'refs', 'meta-ref'])
+    for project in prjs.values():
+        pid = project['name']
+        if args.project and args.project != pid:
+            continue
+        if not hasattr(conf, 'indexer_skip_projects'):
+            conf.indexer_skip_projects = []
+        if not args.project and pid in conf.indexer_skip_projects:
+            continue
+        logger.info("Start indexing project %s" % pid)
+        meta_ref = None
+        if project.get('meta-ref') is True:
+            meta_ref = pid
+        for ref in project['refs']:
+            r = indexer.RepoIndexer(ref['name'],
+                                    ref['uri'],
+                                    parsers=ref['parsers'],
+                                    meta_ref=meta_ref)
+            try:
+                r.git_init()
+            except Exception as e:
+                logger.warning("Unable to init the repository %s: %s" % (
+                               r.base_id, e))
+                continue
+            try:
+                r.get_refs()
+            except Exception as e:
+                logger.warning("Unable to access the repository %s: %s" % (
+                               r.base_id, e))
+                continue
+            r.get_heads()
+            if ref.get('index-tags') is True:
+                r.get_tags()
+            if not [head for head in r.heads if
+                    head[1].endswith(ref['branch'])]:
+                logger.warning(
+                    "Repository %s does not have the "
+                    "requested branch %s" % (r.base_id, ref['branch']))
+                continue
+            r.set_branch(ref['branch'])
+            if r.is_branch_fully_indexed():
+                logger.info("Repository branch fully indexed %s" % (
+                    r.ref_id))
+                continue
+            logger.info("Start indexing repository branch %s" % r.ref_id)
+            try:
+                r.git_fetch_branch()
+            except Exception as e:
+                logger.warning("Unable to fetch repository "
+                               "branch %s: %s" % (r.ref_id, e))
+                continue
+            try:
+                r.git_get_commit_obj()
+                r.get_current_commits_indexed()
+                r.compute_to_index_to_delete()
+                r.index(args.extract_workers)
+            except Exception as e:
+                logger.warning("Unable to index repository "
+                               "branch %s: %s" % (r.ref_id, e))
+                logger.exception("Exception is:")
+                continue
+            try:
+                if ref.get('index-tags') is True:
+                    r.index_tags()
+                else:
+                    # Make sure to wipe tags for this repo if index-tags flag
+                    # is False.
+                    rc = indexer.RefsCleaner(
+                        projects_index, config=args.config)
+                    tags = rc.t.get_tags([r.base_id])
+                    ids = [t['_id'] for t in tags]
+                    if ids:
+                        logger.info(
+                            "Found %s tags for %s but index-tags is False. "
+                            "Wipe tags ..." % (len(ids), r.base_id))
+                        rc.t.del_tags(ids)
+            except Exception as e:
+                logger.warning("Unable to index repository tags "
+                               "%s: %s" % (r.base_id, e))
+                continue
+
+
+if __name__ == "__main__":
+    conf = imp.load_source('config', args.config)
+    configuration.set_config(args.config)
+    if args.logfile:
+        conf.indexer_logging['handlers']['normal']['filename'] = args.logfile
+    if args.loglevel:
+        conf.indexer_logging['handlers']['normal']['level'] = args.loglevel
+        conf.indexer_logging['handlers']['console']['level'] = args.loglevel
+    logging.config.dictConfig(conf.indexer_logging)
+    if args.refresh_projects_index:
+        refresh_projects_index()
+        sys.exit()
+    if args.clean_orphan:
+        try:
+            refresh_projects_index()
+            clean(conf)
+            sys.exit(0)
+        except Exception:
+            logger.exception("Unexcepted error occured")
+            sys.exit(-1)
+    if args.forever:
+        while True:
+            try:
+                refresh_projects_index()
+                process(conf)
+                clean(conf)
+            except Exception:
+                logger.exception("Unexcepted error occured")
+            if args.forever:
+                logger.info(
+                    "Waiting the loop delay (%s/s)" % conf.indexer_loop_delay)
+                time.sleep(conf.indexer_loop_delay)
+    else:
+        try:
+            refresh_projects_index()
+            process(conf)
+            clean(conf)
+        except Exception:
+            logger.exception("Unexcepted error occured")
+            sys.exit(-1)

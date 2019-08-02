@@ -1,0 +1,120 @@
+/*@import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700,800,900');*/
+
+.jumbotron {
+    padding-top: 0.1%;
+    padding-bottom: 0.1%;
+    padding-left: 0.5%;
+}
+
+#groups-index {
+    font-size: 150%;
+}
+
+#projects-filter-form {
+    width: 100%;
+}
+
+#projects-filter-input {
+    width: 80%;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+@-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+}
+
+.row-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.project-panel-logo {
+    text-align: center;
+}
+
+.project-panel-logo img {
+    height: 50px;
+    width: 50px;
+}
+
+.project-panel-name h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.project-panel-button {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project-panel-detail {
+    display: none;
+}
+
+.project-panel-detail h3 {
+    background-color: #F2F2F2;
+}
+
+.blank-separator {
+    margin-top: 15px;
+}
+
+/* CUSTOM */
+    
+body { /*font-family: 'work sans';*/ background: #F1F2F5; }
+h2 { margin: 55px 0 60px; }
+.row-fluid { padding-bottom: 30px; }
+.col-md-12, .col-md-3 { padding: 0 60px !important; }
+.panel { border-radius: 0; border: none; box-shadow: 8px 14px 38px rgba(39,44,49,.06), 1px 3px 8px rgba(39,44,49,.03); }
+.panel-title { font-size: 26px; /*letter-spacing: -.3px;*/ }
+.panel-title i { display: none; }
+.panel-heading { padding: 20px 25px; background: #FFF !important; border-color: #E5E5E5 !important; }
+.container-fluid:first-child, #top_authors_c_div, #top_authors_lc_div, #top_authors_new, #infos_filters_div .col-md-9, .jumbotron { display: none; }
+
+/* Info & Filter */
+
+#infos_filters_div { padding-top: 20px; }
+#infos_filters_div .col-md-3 { width: 100%; margin-bottom: 27px; }
+#infos_filters_div .panel { background: none; box-shadow: none; }
+#infos { display: table; width: 100%; }
+#infos div { font-size: 42px; line-height: 1.2; font-weight: 900; letter-spacing: -.8px; text-align: center; display: table-cell; }
+#infos div b { font-size: 16px; font-weight: 500; display: block; }
+#infos_filters_div .col-md-3 .panel-heading, #infos-description, #infos-first_commit, #infos-last_commit { display: none !important; }
+
+/* Charts */
+
+/*.dimple-series-group-0 rect { fill: #09F2D5 !important; stroke: none !important; opacity: .7 !important; }
+.dimple-gridlines-group { opacity: 0.4; }
+.dimple-title { display: none; }
+.dimple-custom-axis-label { font-size: 11px !important; font-family: 'work sans' !important; letter-spacing: -.15px; }*/
+
+/* Commits Table */
+
+#commits_listing_div .panel { margin-bottom: 0; }
+#commits-table { /*letter-spacing: -.3px;*/ }
+#commits-table td { font-size: 14px; }
+#commits-table td span { padding: 0 !important; }
+#commits-table td img { display: none; }
+#commits-table td a { /*color: #3C74EB;*/ font-weight: 500; }
+#commits-table td span a { pointer-events: none; color: #333; font-weight: 400; }
+#commits-table td:last-child, #commits-table th:last-child { display: none; }
+.table-striped>tbody>tr:nth-of-type(odd), .panel-footer { background: #F7F7F7; }
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th { border: none; }

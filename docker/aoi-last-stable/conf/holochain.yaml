@@ -1,0 +1,210 @@
+project-templates:
+  holochain:
+    branches:
+    - master
+    gitweb: http://github.com/holochain/%(name)s/commit/%%(sha)s
+    uri: http://github.com/holochain/%(name)s
+projects:
+  holochain:
+    description: The holochain Github organization
+    repos:
+      HC-Admin:
+        branches:
+        - develop
+        template: holochain
+      HCHC:
+        template: holochain
+      HoloWorld:
+        template: holochain
+      HoloWorldBridge:
+        template: holochain
+      PeerVis:
+        template: holochain
+      acorn:
+        template: holochain
+      acorn-example:
+        template: holochain
+      app-spec-rust:
+        branches:
+        - develop
+        template: holochain
+      apps:
+        template: holochain
+      assemblyscript-example-app:
+        template: holochain
+      benchmarks:
+        template: holochain
+      cloud9ForHackathons:
+        template: holochain
+      cludder:
+        template: holochain
+      clutter:
+        branches:
+        - develop
+        template: holochain
+      cointoss:
+        template: holochain
+      consumeHolodex:
+        template: holochain
+      core-concepts-examples:
+        template: holochain
+      cryptographic-autonomy-license:
+        template: holochain
+      dao:
+        template: holochain
+      data:
+        branches:
+        - develop
+        template: holochain
+      dev-camp-idea:
+        template: holochain
+      dev-camp-playground:
+        template: holochain
+      dev-camp-test:
+        template: holochain
+      dev-camp-tests-rust:
+        template: holochain
+      dev-resource-kit:
+        template: holochain
+      diorama:
+        template: holochain
+      dna-to-openapi:
+        template: holochain
+      docs-pages:
+        template: holochain
+      dpki:
+        template: holochain
+      emulation-testing:
+        template: holochain
+      fed-wiki:
+        template: holochain
+      file-storage-zome:
+        template: holochain
+      hachiko:
+        template: holochain
+      hc-redux-middleware:
+        template: holochain
+      hc-siderun:
+        template: holochain
+      hc-ts-template:
+        template: holochain
+      hc-web-client:
+        template: holochain
+      hcid:
+        template: holochain
+      hcrs:
+        template: holochain
+      hcup:
+        template: holochain
+      hdk-assemblyscript:
+        template: holochain
+      hdk-rust:
+        template: holochain
+      holochain-basic-chat:
+        branches:
+        - develop
+        template: holochain
+      holochain-cmd:
+        branches:
+        - develop
+        template: holochain
+      holochain-labs:
+        template: holochain
+      holochain-nodejs:
+        template: holochain
+      holochain-persistence:
+        branches:
+        - develop
+        template: holochain
+      holochain-proto:
+        branches:
+        - develop
+        template: holochain
+      holochain-proto-types:
+        template: holochain
+      holochain-rust:
+        branches:
+        - develop
+        template: holochain
+      holochain-serialization:
+        branches:
+        - develop
+        template: holochain
+      holochain-ui:
+        branches:
+        - develop
+        template: holochain
+      holochat:
+        branches:
+        - develop
+        template: holochain
+      holodex:
+        template: holochain
+      holonix:
+        template: holochain
+      holosqape:
+        branches:
+        - develop
+        template: holochain
+      intership2017:
+        template: holochain
+      js-tests-scaffold:
+        template: holochain
+      lib3h:
+        branches:
+        - develop
+        template: holochain
+      mapOnHolochain:
+        template: holochain
+      minersweeper:
+        template: holochain
+      mixins:
+        template: holochain
+      n-bch-rs:
+        template: holochain
+      n3h:
+        template: holochain
+      node-js-libp2p-ipc:
+        template: holochain
+      node-p2p-ipc:
+        template: holochain
+      node-static-build:
+        template: holochain
+      org:
+        template: holochain
+      panoptipong:
+        branches:
+        - develop
+        template: holochain
+      personas-profiles:
+        branches:
+        - develop
+        template: holochain
+      positron:
+        template: holochain
+      react-web-ui-kit:
+        template: holochain
+      rust-api:
+        template: holochain
+      sample-zome:
+        branches:
+        - 1-start-with-current-hcdev
+        template: holochain
+      scaffold:
+        template: holochain
+      simple-app:
+        branches:
+        - develop
+        template: holochain
+      soa-scraper:
+        template: holochain
+      tasktaskic:
+        template: holochain
+      touchpoints:
+        template: holochain
+      travis-windows-proto:
+        template: holochain
+      web-components:
+        template: holochain
+      website:
+        template: holochain

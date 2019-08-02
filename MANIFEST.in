@@ -1,0 +1,2 @@
+include README.md config.py
+recursive-include repoxplorer/public *
