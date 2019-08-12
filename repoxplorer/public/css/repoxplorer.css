@@ -95,8 +95,8 @@ h2 { margin: 55px 0 60px; }
 #infos_filters_div .col-md-3 { width: 100%; margin-bottom: 27px; }
 #infos_filters_div .panel { background: none; box-shadow: none; }
 #infos { display: table; width: 100%; }
-#infos div { font-size: 42px; line-height: 1.2; font-weight: 900; letter-spacing: -.8px; text-align: center; display: table-cell; }
-#infos div b { font-size: 16px; font-weight: 500; display: block; }
+#infos div { font-size: 40px; line-height: 1.2; font-weight: 900; letter-spacing: -1.8px; text-align: center; display: table-cell; }
+#infos div b { font-size: 16px; font-weight: 500; display: block; letter-spacing: -.2; }
 #infos_filters_div .col-md-3 .panel-heading, #infos-description, #infos-first_commit, #infos-last_commit { display: none !important; }
 
 /* Charts */
@@ -118,3 +118,18 @@ h2 { margin: 55px 0 60px; }
 #commits-table td:last-child, #commits-table th:last-child { display: none; }
 .table-striped>tbody>tr:nth-of-type(odd), .panel-footer { background: #F7F7F7; }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th { border: none; }
+
+/* Responsive */
+
+@media (max-width:1024px) {
+    .col-md-12, .col-md-3 { padding: 0 30px !important; }
+	#infos div { font-size: 30px; }
+    #infos div b { font-size: 14px; letter-spacing: 0; }
+}
+
+@media (max-width:767px) {
+	#infos div { display: block; width: 100%; margin-bottom: 30px; }
+	#infos div { font-size: 35px; }
+	#infos div b { font-size: 16px; }
+	#commits_histo_div, #contributors_histo_div, #commits_listing_div { display: none; }
+}
