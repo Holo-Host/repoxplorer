@@ -244,12 +244,12 @@ function fill_info_box(args) {
     $("#infos-members_amount").empty();
 
 
-    $("#infos-commits_amount").append('<b>Commits:</b> ' + args.commits_amount);
+    $("#infos-commits_amount").append('<b>Commits:</b> ' + args.commits_amount.toLocaleString());
     $("#infos-authors_amount").append('<b>Authors:</b> ' + args.authors_amount);
-    $("#infos-duration").append('<b>Activity duration:</b> ' + args.duration + ' days');
+    $("#infos-duration").append('<b>Activity duration:</b> ' + args.duration.toLocaleString() + ' days');
     $("#infos-first_commit").append('<b>Date of first commit:</b> '+ moment(args.first).format("YYYY-MM-DD HH:mm:ss"));
     $("#infos-last_commit").append('<b>Date of last commit:</b> ' + moment(args.last).format("YYYY-MM-DD HH:mm:ss"));
-    $("#infos-lines_changed").append('<b>Lines changed:</b> ' + args.line_modifieds_amount);
+    $("#infos-lines_changed").append('<b>Lines changed:</b> ' + args.line_modifieds_amount.toLocaleString());
     $("#infos-author_name").append('<b>Full Name:</b> ' + args.name);
     $("#infos-gravatar").append('<img class="img-responsive" src="https://www.gravatar.com/avatar/' + args.gravatar + '?s=150" title="' + args.name + '">');
     $("#infos-projects_amount").append('<b>Projects contributed:</b> ' + args.projects_amount);
