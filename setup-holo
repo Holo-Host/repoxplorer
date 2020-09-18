@@ -1,0 +1,10 @@
+#!/bin/bash
+# Update repo listings
+./bin/repoxplorer-github-organization --org Holo-Host --token $GITHUB_PERSONAL_ACCESS_TOKEN --skip-fork --output-path docker-data/conf/holo-host
+./bin/repoxplorer-github-organization --org holochain --token $GITHUB_PERSONAL_ACCESS_TOKEN --skip-fork --output-path docker-data/conf/holochain
+
+# Copy/transform files needed for Docker build
+cp docker-data/conf/holo-host.yaml holo/.holo/holo-host.yaml
+cp docker-data/conf/holochain.yaml holo/.holo/holochain.yaml
+cat ./bin/repoxplorer-git-credentials-helper | sed s/fakeusername/$GITHUB_PERSONAL_ACCESS_TOKEN/ > holo/.holo/repoxplorer-git-credentials-helper
+chmod +x holo/.holo/repoxplorer-git-credentials-helper

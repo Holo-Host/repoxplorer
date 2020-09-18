@@ -12,3 +12,4 @@ docker/conf
 docker-data
 *DS_Store*
 .env
+.holo

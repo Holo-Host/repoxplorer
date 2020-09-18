@@ -1,9 +1,9 @@
-# Deploy last stable version of repoXplorer published on docker hub.
+# Deploy Holo customized version of repoXplorer uploaded to AWS ECR by Duffy.
 
 version: '3'
 services:
   repoxplorer:
-    image: repoxplorer-holo:latest
+    image: repoxplorer:1.5.1-holo2
     container_name: repoxplorer-holo
     ports:
       - 51000:51000

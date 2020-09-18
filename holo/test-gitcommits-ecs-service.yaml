@@ -111,7 +111,7 @@ Parameters:
   LoadBalancerPriority: 
     Description: 'The priority for the rule. Elastic Load Balancing evaluates rules in priority order, from the lowest value to the highest value. If a request satisfies a rule, Elastic Load Balancing ignores all subsequent rules. A target group can have only one rule with a given priority.'
     Type: Number
-    Default: 3
+    Default: 4
     ConstraintDescription: 'Must be in the range [1-99999]'
     MinValue: 1
     MaxValue: 99999
@@ -186,7 +186,7 @@ Parameters:
   AppImage:
     Description: 'The Docker image to use for the app container. You can use images in the Docker Hub registry or specify other repositories (repository-url/image:tag).'
     Type: String
-    Default: '028550861172.dkr.ecr.us-west-2.amazonaws.com/devops/gitcommithistory:holo-test'
+    Default: '028550861172.dkr.ecr.us-west-2.amazonaws.com/devops/gitcommithistory:holo-cron'
   AppCommand:
     Description: 'Optional commands (comma-delimited) used when starting the app container.'
     Type: String
@@ -262,7 +262,7 @@ Parameters:
   SubDomainNameWithDot: 
     Description: 'Name that is used to create the DNS entry with trailing dot, e.g. ?{SubDomainNameWithDot}?{HostedZoneName}. Leave blank for naked (or apex and bare) domain. Requires ParentZoneStack parameter!'
     Type: String
-    Default: 'newcommits'
+    Default: 'newcommits.'
   Cpu: 
     Description: 'The minimum number of vCPUs to reserve for the container.'
     Type: String
@@ -433,7 +433,7 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 15
-      HealthCheckPath: '/'
+      HealthCheckPath: '/index.html'
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 10
       HealthyThresholdCount: 2
