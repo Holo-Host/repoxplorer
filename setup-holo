@@ -1,5 +1,7 @@
 #!/bin/bash
 # Update repo listings
+./bin/repoxplorer-github-organization --org Holo-Host --token $GITHUB_PERSONAL_ACCESS_TOKEN --skip-fork --output-path docker-data/conf/holo-host-one-branch
+./bin/repoxplorer-github-organization --org holochain --token $GITHUB_PERSONAL_ACCESS_TOKEN --skip-fork --output-path docker-data/conf/holochain-one-branch
 ./bin/repoxplorer-github-organization --org Holo-Host --token $GITHUB_PERSONAL_ACCESS_TOKEN --skip-fork --all-branches --output-path docker-data/conf/holo-host
 ./bin/repoxplorer-github-organization --org holochain --token $GITHUB_PERSONAL_ACCESS_TOKEN --skip-fork --all-branches --output-path docker-data/conf/holochain
 
