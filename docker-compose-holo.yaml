@@ -3,14 +3,13 @@
 version: '3'
 services:
   repoxplorer:
-    image: repoxplorer:1.5.1-holo2-all-branches
+    image: repoxplorer:1.5.1-holo2-ab-7
     container_name: repoxplorer-holo
     ports:
       - 51000:51000
     volumes:
       - repoxplorer-data:/usr/local/share/repoxplorer
       - elasticsearch-data:/var/lib/elasticsearch
-      - $PWD/docker-data/conf:/etc/repoxplorer/defs:z
 volumes:
   elasticsearch-data:
   repoxplorer-data:

@@ -109,8 +109,7 @@ if __name__ == "__main__":
            for branch in r.branches():
                branches.add(branch.name)
 
-        branches = list(branches)
-        data[r.name]['branches'] = branches
+        data[r.name]['branches'] = list(branches)
 
         projects[args.org]["repos"].update(data)
         print("Found %s" % r.name)
