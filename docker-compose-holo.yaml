@@ -3,7 +3,7 @@
 version: '3'
 services:
   repoxplorer:
-    image: repoxplorer:1.5.1-holo2
+    image: repoxplorer:1.5.1-holo2-dec-2020
     container_name: repoxplorer-holo
     ports:
       - 51000:51000
